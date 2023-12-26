@@ -20,18 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function stopDrawing() {
         isDrawing = false;
-        context.beginPath();
     }
 
     function draw(e) {
         if (!isDrawing) return;
-
-  
-
-        context.lineTo(e.clientX, e.clientY);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(e.clientX, e.clientY);
+        context.fillRect(x, y, 5, 5);
     }
 
     function clearCanvas() {
