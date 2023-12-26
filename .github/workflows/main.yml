@@ -21,6 +21,8 @@ jobs:
 
     - name: Criar e commitar arquivo de status
       run: |
+        git config --global user.email "alex3aguiar@gmail.com"
+        git config --global user.name "alex"
         git checkout -b status
         echo "Último commit em main: ${LAST_COMMIT_DATE}" > status.txt
         git add status.txt
