@@ -26,10 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function draw(e) {
         if (!isDrawing) return;
 
-        // Se a caneta suportar pressão, ajuste a largura da linha com base na pressão
-        if (e.pressure) {
-            context.lineWidth = e.pressure * 20;
-        }
+  
 
         context.lineTo(e.clientX, e.clientY);
         context.stroke();
