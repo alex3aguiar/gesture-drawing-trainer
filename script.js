@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    context.fillStyle = "black"; // Cor do pincel
+    context.lineCap = "round";
+    context.strokeStyle = "black";
 
     function startDrawing(e) {
         isDrawing = true;
@@ -19,20 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function stopDrawing() {
         isDrawing = false;
+        context.beginPath();
     }
 
     function draw(e) {
         if (!isDrawing) return;
 
-        const x = e.clientX;
-        const y = e.clientY;
+  
 
-        if (e.pressure) {
-            const pressure = e.pressure * 20;
-            context.fillRect(x - pressure / 2, y - pressure / 2, pressure, pressure);
-        } else {
-            context.fillRect(x, y, 5, 5); // Tamanho do pixel padrão
-        }
+        context.lineTo(e.clientX, e.clientY);
+        context.stroke();
+        context.beginPath();
+        context.moveTo(e.clientX, e.clientY);
     }
 
     function clearCanvas() {
@@ -53,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.addEventListener("pointerdown", startDrawing);
     canvas.addEventListener("pointermove", draw);
     canvas.addEventListener("pointerup", stopDrawing);
-    canvas.addEventListener("pointerout", stopDrawing);
+    //canvas.addEventListener("pointerout", stopDrawing);
 
     clearButton.addEventListener("click", clearCanvas);
     downloadButton.addEventListener("click", downloadCanvas);
