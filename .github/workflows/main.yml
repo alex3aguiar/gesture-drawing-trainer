@@ -1,0 +1,28 @@
+name: Atualizar Status
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  atualizar-status:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v2
+
+    - name: Obter data do último commit
+      id: obter-data
+      run: |
+        LAST_COMMIT_DATE=$(git log -1 --format=%cd --date=format:'%Y-%m-%dT%H:%M:%SZ')
+        echo "LAST_COMMIT_DATE=${LAST_COMMIT_DATE}" >> $GITHUB_ENV
+
+    - name: Criar e commitar arquivo de status
+      run: |
+        git checkout -b status
+        echo "Último commit em main: ${LAST_COMMIT_DATE}" > status.txt
+        git add status.txt
+        git commit -m "Atualizar status com a data do último commit em main"
+        git push origin status
