@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const downloadButton = document.getElementById("downloadButton");
 
     let isDrawing = false;
+    context.fillStyle = "black"; // Cor do pincel
 
     // Configurações iniciais do canvas
     canvas.width = window.innerWidth;
