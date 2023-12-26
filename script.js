@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const canvas = document.getElementById("myCanvas");
     const context = canvas.getContext("2d");
     const clearButton = document.getElementById("clearButton");
+    const downloadButton = document.getElementById("downloadButton");
 
     let isDrawing = false;
 
@@ -9,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    context.lineWidth = 5;
     context.lineCap = "round";
     context.strokeStyle = "black";
 
@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function draw(e) {
         if (!isDrawing) return;
 
+        // Se a caneta suportar pressão, ajuste a largura da linha com base na pressão
+        if (e.pressure) {
+            context.lineWidth = e.pressure * 20;
+        }
+
         context.lineTo(e.clientX, e.clientY);
         context.stroke();
         context.beginPath();
@@ -33,9 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function clearCanvas() {
-        downloadCanvas()
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
+
     function downloadCanvas() {
         const dataUrl = canvas.toDataURL("image/png");
         const link = document.createElement("a");
@@ -47,10 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Event listeners
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("mouseout", stopDrawing);
+    canvas.addEventListener("pointerdown", startDrawing);
+    canvas.addEventListener("pointermove", draw);
+    canvas.addEventListener("pointerup", stopDrawing);
+    canvas.addEventListener("pointerout", stopDrawing);
 
     clearButton.addEventListener("click", clearCanvas);
+    downloadButton.addEventListener("click", downloadCanvas);
 });
