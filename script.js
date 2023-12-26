@@ -5,14 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const downloadButton = document.getElementById("downloadButton");
 
     let isDrawing = false;
-    context.fillStyle = "black"; // Cor do pincel
 
     // Configurações iniciais do canvas
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    context.lineCap = "round";
-    context.strokeStyle = "black";
+    context.fillStyle = "black"; // Cor do pincel
 
     function startDrawing(e) {
         isDrawing = true;
@@ -25,7 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function draw(e) {
         if (!isDrawing) return;
-        context.fillRect(x, y, 5, 5);
+
+        const x = e.clientX;
+        const y = e.clientY;
+
+        if (e.pressure) {
+            const pressure = e.pressure * 20;
+            context.fillRect(x - pressure / 2, y - pressure / 2, pressure, pressure);
+        } else {
+            context.fillRect(x, y, 5, 5); // Tamanho do pixel padrão
+        }
     }
 
     function clearCanvas() {
